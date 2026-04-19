@@ -53,7 +53,7 @@ In this project, I set up a Domain Controller and a client machine in Azure to s
 - Created a Virtual Network and two VMs (DC-1 and Client-1)  
 - Set the Domain Controller to use a **static private IP**
 
-![VM Setup](images/vm-setup.png)
+![VM Setup](vm-setup.png)
 
 
 ---
