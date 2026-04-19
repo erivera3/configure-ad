@@ -8,206 +8,205 @@
 
 ## 🎯 Goals & Objectives
 
-The goal of this project was to build a functional Active Directory environment in a cloud setting and understand how core IT infrastructure components interact.
+The goal of this project was to design and implement a functional Active Directory environment in a cloud setting while developing a deeper understanding of how core infrastructure components interact.
 
 By the end of this lab, I aimed to:
 
-- Deploy a Domain Controller in Microsoft Azure
-- Configure Active Directory Domain Services (AD DS)
-- Join a client machine to the domain
-- Create and manage users and Organizational Units
-- Implement and test security policies (account lockout)
-- Validate authentication and system behavior
-- Develop troubleshooting skills across networking, DNS, and system logs
+- Deploy a Domain Controller in Microsoft Azure  
+- Configure Active Directory Domain Services (AD DS)  
+- Join a client machine to the domain  
+- Create and manage users and Organizational Units  
+- Implement and test security policies  
+- Strengthen troubleshooting skills across DNS, networking, and system logs  
+- Reflect on system behavior to improve future problem-solving approaches  
 
 ---
 
 ## 📌 Overview
 
-This project demonstrates the deployment and configuration of an Active Directory Domain Services (AD DS) environment using Azure Virtual Machines. A Domain Controller and client machine were configured to simulate a real-world enterprise setup with centralized identity and access management.
+This project demonstrates the deployment and configuration of an Active Directory Domain Services (AD DS) environment using Azure Virtual Machines. The setup simulates a real-world enterprise environment with centralized identity and access management.
+
+More importantly, this lab served as a hands-on opportunity to connect theoretical knowledge with practical implementation, reinforcing how infrastructure, networking, and security concepts interdepend.
 
 ---
 
 ## 🧰 Technologies Used
 
-- Microsoft Azure (Virtual Machines)
-- Active Directory Domain Services (AD DS)
-- Remote Desktop Protocol (RDP)
-- PowerShell (ISE)
-- Group Policy Management
-- DNS
+- Microsoft Azure (Virtual Machines)  
+- Active Directory Domain Services (AD DS)  
+- Remote Desktop Protocol (RDP)  
+- PowerShell (ISE)  
+- Group Policy Management  
+- DNS  
 
 ---
 
 ## 💻 Environment
 
-- Windows Server 2022 (Domain Controller: DC-1)
-- Windows 10 (Client Machine: Client-1)
-- Domain: `mydomain.com`
-- Azure Virtual Network (VNet)
+- Windows Server 2022 (Domain Controller: DC-1)  
+- Windows 10 (Client Machine: Client-1)  
+- Domain: `mydomain.com`  
+- Azure Virtual Network (VNet)  
 
 ---
 
 ## ⚙️ Implementation
 
 ### 1. Infrastructure Setup
-- Created Resource Group, Virtual Network, and two VMs (DC-1, Client-1)
-- Configured Domain Controller with a **static private IP**
+- Created Resource Group, Virtual Network, and two VMs  
+- Configured Domain Controller with a **static private IP**  
 
 ![VM Setup](images/vm-setup.png)
 
 ---
 
 ### 2. DNS & Connectivity
-- Configured Client-1 to use DC-1 as its DNS server
-- Verified connectivity using:
-  - `ping`
-  - `ipconfig /all`
+- Configured Client-1 to use DC-1 as its DNS server  
+- Verified connectivity using `ping` and `ipconfig /all`  
 
 ![DNS Config](images/dns-config.png)
 
 ---
 
 ### 3. Active Directory Deployment
-- Installed AD DS on DC-1
-- Promoted server to Domain Controller
-- Created domain: `mydomain.com`
+- Installed AD DS and promoted DC-1 to a Domain Controller  
+- Created domain: `mydomain.com`  
 
 ![AD Install](images/ad-install.png)
 
 ---
 
-### 4. Directory Structure & Admin Setup
+### 4. Directory Structure & Administration
 - Created Organizational Units:
   - `_ADMINS`
   - `_EMPLOYEES`
   - `_CLIENTS`
-- Created admin account: `jane_admin`
-- Assigned to Domain Admins group
+- Created dedicated admin account (`jane_admin`)  
 
 ![OU Setup](images/ou-setup.png)
 
 ---
 
-### 5. Domain Join
-- Joined Client-1 to the domain
-- Verified presence in Active Directory
-- Organized into `_CLIENTS` OU
+### 5. Domain Integration
+- Joined Client-1 to the domain  
+- Verified presence in Active Directory  
+- Organized system within `_CLIENTS` OU  
 
 ![Domain Join](images/domain-join.png)
 
 ---
 
-### 6. User Management at Scale
-- Used PowerShell to generate ~10,000 user accounts
-- Verified accounts in `_EMPLOYEES` OU
+### 6. Scalable User Management
+- Used PowerShell to create ~10,000 users  
+- Verified proper placement within `_EMPLOYEES` OU  
 
 ![Users](images/users.png)
 
 ---
 
 ### 7. Security Policy Implementation
-- Configured account lockout policy via Group Policy
-- Forced policy update using `gpupdate /force`
-- Triggered lockouts through repeated failed logins
+- Configured account lockout policy using Group Policy  
+- Forced policy update (`gpupdate /force`)  
+- Validated enforcement through failed login attempts  
 
 ---
 
 ### 8. Account Management & Logging
-- Unlocked accounts and reset passwords
-- Disabled and re-enabled users
-- Reviewed authentication activity using Event Viewer
+- Unlocked accounts and reset passwords  
+- Disabled and re-enabled users  
+- Reviewed authentication logs in Event Viewer  
 
 ![Logs](images/logs.png)
 
 ---
 
-## 🔍 Troubleshooting
+## 🔍 Troubleshooting & Problem-Solving
 
-### DNS Misconfiguration
-- Issue: Client unable to join domain  
-- Cause: Using Azure default DNS  
-- Fix: Pointed DNS to Domain Controller private IP  
-
----
-
-### Network / Subnet Misconfiguration
-- Issue: Systems could not communicate  
-- Cause: Incorrect network/subnet alignment  
-- Fix:
-  - Verified both VMs in same VNet/subnet
-  - Corrected configuration
-  - Confirmed connectivity with ping  
+### DNS Dependency
+- Issue: Domain join failure  
+- Cause: Client using Azure default DNS  
+- Resolution: Redirected DNS to Domain Controller  
 
 ---
 
-### Log Analysis Challenge
+### Network Configuration (Subnet Awareness)
+- Issue: Systems unable to communicate  
+- Cause: Misaligned network configuration  
+- Resolution:
+  - Verified both VMs were in the same VNet/subnet  
+  - Corrected addressing  
+  - Validated connectivity  
+
+---
+
+### Log Interpretation Challenge
 - Issue: Difficulty identifying relevant events in logs  
-- Cause: High volume of detailed entries with no obvious flags  
+- Observation:
+  - Logs contain detailed but non-obvious information  
+  - Requires filtering and contextual understanding  
 - Insight:
-  - Logs require filtering and interpretation
-  - Important events can be missed without context or monitoring tools  
+  - Monitoring is not passive—it requires active interpretation  
 
 ---
 
-## 🧠 Design Decisions
+## 🧠 Design Thinking
 
-- Assigned a **static IP** to the Domain Controller to maintain DNS consistency  
-- Created separate admin account instead of using default administrator  
-- Structured Organizational Units to reflect real-world environments  
-- Used PowerShell for scalable user creation  
+This lab reinforced intentional design choices:
+
+- Static IP assignment ensures DNS stability  
+- Organizational Units provide scalable structure  
+- Separate admin accounts support least privilege principles  
+- PowerShell enables efficient, large-scale operations  
+
+These decisions reflect how systems are designed for maintainability and scalability in real environments.
 
 ---
 
 ## 🛡️ Security Perspective
 
-- Simulated account lockout through repeated failed login attempts  
-- Observed how authentication events are recorded in logs  
-- Identified how lack of monitoring could delay detection of suspicious behavior  
+- Simulated account lockouts through repeated failed logins  
+- Observed how authentication attempts are logged  
+- Identified how high log volume can obscure meaningful signals  
+
+This highlights the importance of:
+- Monitoring tools (SIEM)
+- Alerting systems
+- Structured log analysis  
 
 ---
 
-## 🌍 Real-World Relevance
+## 🌍 Real-World Transfer
 
-In production environments:
+This experience extends beyond the lab environment:
 
-- User provisioning is automated through HR systems  
-- Logs are aggregated into SIEM platforms (e.g., Microsoft Sentinel)  
-- Group Policy enforces organization-wide security standards  
-- Monitoring and alerting are automated  
-
----
-
-## ✅ Results
-
-- Successfully deployed Active Directory in Azure  
-- Configured DNS and verified domain communication  
-- Created and managed users and OUs  
-- Joined client machine to domain  
-- Implemented and tested security policies  
-- Verified authentication and logging behavior  
+- Cloud infrastructure can replicate traditional enterprise systems  
+- Identity management is central to system security  
+- Automation and policy enforcement are essential at scale  
+- Monitoring and visibility are critical for operational security  
 
 ---
 
 ## 📌 Lessons Learned
 
-- Active Directory is highly dependent on DNS configuration  
-- Network misconfiguration (subnets, DNS) can break communication silently  
-- Logs require analysis and context, not just observation  
-- Troubleshooting is a critical skill in IT environments  
-- Security visibility depends on proper monitoring tools  
+- Active Directory is tightly coupled with DNS configuration  
+- Network design (subnets, addressing) directly impacts system functionality  
+- Logs require interpretation, not just observation  
+- Troubleshooting is iterative and requires system-level thinking  
+- Effective IT work combines technical skill with analytical reasoning  
 
 ---
 
-## 💭 Personal Reflection
+## 💭 Reflection (Metacognitive Insight)
 
-This project changed how I view IT systems.
+This lab shifted my understanding from simply executing steps to analyzing how systems behave.
 
-Initially, I assumed that system issues would be clearly visible and easy to identify. In practice, I found that many problems (DNS misconfiguration, subnet issues, log analysis) required deliberate investigation and understanding of how systems interact.
+Initially, I expected issues to be clearly visible and easy to diagnose. Instead, I found that many problems required deliberate investigation and a deeper understanding of system dependencies.
 
-One key realization was how easy it is for issues—or even suspicious behavior—to go unnoticed without proper monitoring. Logs contain the necessary information, but identifying meaningful events requires both experience and the right tools.
+A key realization was that systems do not inherently highlight problems—meaningful signals must be identified within large volumes of data. This reinforced the importance of developing both technical skills and analytical thinking.
 
-This experience reinforced the importance of:
-- Understanding system dependencies (DNS, networking, authentication)
-- Developing strong troubleshooting skills
-- Recognizing the role of monitoring and security tools in real environments
+Moving forward, I will approach system configuration and troubleshooting with a stronger focus on:
+- Anticipating dependencies  
+- Verifying assumptions  
+- Interpreting system feedback critically  
+
+This shift from procedural execution to reflective problem-solving is essential for real-world IT work.
