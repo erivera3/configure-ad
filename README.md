@@ -5,14 +5,14 @@
 <h1>Active Directory Deployment in Azure (Lab 5)</h1>
 
 <p>
-This lab demonstrates the deployment of an on-premises style <b>Active Directory Domain Services (AD DS)</b> environment using Microsoft Azure Virtual Machines. The environment includes a Domain Controller and a domain-joined client machine with user and policy management.
+This lab demonstrates the deployment and configuration of an Active Directory Domain Services (AD DS) environment in Microsoft Azure. A Domain Controller and client machine were configured to simulate a basic enterprise network with centralized authentication, user management, and security policy enforcement.
 </p>
 
 ---
 
 <h2>🎯 Objective</h2>
 <p>
-Deploy and configure Active Directory in Azure, create users and organizational units, join a client machine to the domain, and implement account security policies.
+Deploy a functional Active Directory environment in Azure, join a client machine to the domain, and implement user management and security controls.
 </p>
 
 ---
@@ -51,9 +51,9 @@ Deploy and configure Active Directory in Azure, create users and organizational 
 
 <h2>⚙️ Deployment Process</h2>
 
-<h3>Step 1: Build Azure Infrastructure</h3>
+<h3>Step 1: Azure Infrastructure Deployment</h3>
 <p>
-Created a Resource Group, Virtual Network, and two Virtual Machines (DC-1 and Client-1). Both machines were placed in the same network to allow communication.
+Provisioned a Resource Group, Virtual Network, and two virtual machines (DC-1 and Client-1) within the same network to enable internal communication.
 </p>
 
 <p align="center">
@@ -61,14 +61,14 @@ Created a Resource Group, Virtual Network, and two Virtual Machines (DC-1 and Cl
 </p>
 
 <p>
-Configured the Domain Controller with a <b>static private IP</b> to prevent DNS issues caused by IP changes. :contentReference[oaicite:0]{index=0}
+Configured the Domain Controller with a static private IP address to prevent DNS failures caused by dynamic IP changes.
 </p>
 
 ---
 
-<h3>Step 2: Configure DNS and Connectivity</h3>
+<h3>Step 2: Network Connectivity and DNS Configuration</h3>
 <p>
-Updated Client-1’s DNS settings to point to the Domain Controller’s private IP address. Verified connectivity using <b>ping</b> and <b>ipconfig /all</b>.
+Configured the client machine to use the Domain Controller’s private IP address as its DNS server. Verified connectivity by successfully pinging the Domain Controller and confirming DNS settings using <b>ipconfig /all</b>.
 </p>
 
 <p align="center">
@@ -77,9 +77,9 @@ Updated Client-1’s DNS settings to point to the Domain Controller’s private 
 
 ---
 
-<h3>Step 3: Install Active Directory Domain Services</h3>
+<h3>Step 3: Active Directory Installation and Domain Setup</h3>
 <p>
-Installed AD DS on DC-1 and promoted it to a Domain Controller by creating a new forest (<b>mydomain.com</b>). :contentReference[oaicite:1]{index=1}
+Installed Active Directory Domain Services on the Domain Controller and promoted it to a Domain Controller by creating a new forest (<b>mydomain.com</b>). Verified successful deployment by logging in using domain credentials.
 </p>
 
 <p align="center">
@@ -88,9 +88,9 @@ Installed AD DS on DC-1 and promoted it to a Domain Controller by creating a new
 
 ---
 
-<h3>Step 4: Create Organizational Units and Admin User</h3>
+<h3>Step 4: Organizational Units and Administrative Account</h3>
 <p>
-Created Organizational Units (<b>_EMPLOYEES</b>, <b>_ADMINS</b>) and a domain admin account (<b>jane_admin</b>). Added the account to the Domain Admins group.
+Created Organizational Units (<b>_EMPLOYEES</b>, <b>_ADMINS</b>) to organize users and administrative roles. Created a dedicated domain admin account (<b>jane_admin</b>) and added it to the Domain Admins group.
 </p>
 
 <p align="center">
@@ -99,9 +99,9 @@ Created Organizational Units (<b>_EMPLOYEES</b>, <b>_ADMINS</b>) and a domain ad
 
 ---
 
-<h3>Step 5: Join Client Machine to Domain</h3>
+<h3>Step 5: Domain Join and Validation</h3>
 <p>
-Joined Client-1 to the domain and verified it appeared in Active Directory. Moved the machine into the <b>_CLIENTS</b> OU.
+Joined Client-1 to the domain and verified its presence in Active Directory. Moved the client machine into the <b>_CLIENTS</b> Organizational Unit to maintain structure.
 </p>
 
 <p align="center">
@@ -110,9 +110,9 @@ Joined Client-1 to the domain and verified it appeared in Active Directory. Move
 
 ---
 
-<h3>Step 6: Enable Remote Desktop Access</h3>
+<h3>Step 6: Remote Desktop Configuration</h3>
 <p>
-Configured Client-1 to allow domain users to access Remote Desktop.
+Enabled Remote Desktop access for domain users on Client-1, allowing non-administrative users to log in remotely.
 </p>
 
 <p align="center">
@@ -121,9 +121,9 @@ Configured Client-1 to allow domain users to access Remote Desktop.
 
 ---
 
-<h3>Step 7: Bulk User Creation with PowerShell</h3>
+<h3>Step 7: Bulk User Creation via PowerShell</h3>
 <p>
-Used PowerShell ISE to run a script that generated <b>10,000 user accounts</b> for testing within Active Directory.
+Executed a PowerShell script to generate approximately 10,000 user accounts within Active Directory for testing and simulation purposes. Verified user creation within the _EMPLOYEES Organizational Unit.
 </p>
 
 <p align="center">
@@ -132,23 +132,23 @@ Used PowerShell ISE to run a script that generated <b>10,000 user accounts</b> f
 
 ---
 
-<h3>Step 8: Test Authentication</h3>
+<h3>Step 8: Authentication Testing</h3>
 <p>
-Logged into Client-1 using one of the newly created domain users to verify authentication worked correctly. :contentReference[oaicite:2]{index=2}
+Tested domain authentication by logging into Client-1 using a newly created user account. Confirmed successful login under domain context.
 </p>
 
 ---
 
-<h3>Step 9: Configure Account Lockout Policy</h3>
+<h3>Step 9: Account Lockout Policy Configuration</h3>
 <p>
-Configured Group Policy to lock accounts after multiple failed login attempts. Forced policy update using <b>gpupdate /force</b> and verified results.
+Configured Group Policy to enforce account lockout after multiple failed login attempts. Applied the policy and forced an update using <b>gpupdate /force</b>. Verified the policy by triggering account lockouts through repeated failed login attempts.
 </p>
 
 ---
 
-<h3>Step 10: Unlock and Manage Accounts</h3>
+<h3>Step 10: Account Recovery and Management</h3>
 <p>
-Tested account lockouts, unlocked accounts in Active Directory, reset passwords, and verified login functionality.
+Unlocked user accounts in Active Directory, reset passwords, and verified successful login after recovery. Tested account disabling and re-enabling to confirm access control behavior.
 </p>
 
 <p align="center">
@@ -157,9 +157,9 @@ Tested account lockouts, unlocked accounts in Active Directory, reset passwords,
 
 ---
 
-<h3>Step 11: Disable/Enable Accounts & Review Logs</h3>
+<h3>Step 11: Log Analysis</h3>
 <p>
-Disabled and re-enabled accounts to observe behavior. Checked security logs using <b>Event Viewer</b> to track login attempts and account activity.
+Reviewed authentication and security events using Event Viewer on the Domain Controller and client machine to validate login attempts and account activity.
 </p>
 
 <p align="center">
@@ -171,12 +171,12 @@ Disabled and re-enabled accounts to observe behavior. Checked security logs usin
 <h2>✅ Results</h2>
 
 <ul>
-  <li>Successfully deployed Active Directory in Azure</li>
-  <li>Configured DNS for domain communication</li>
-  <li>Created and managed users and OUs</li>
-  <li>Joined client machine to domain</li>
-  <li>Implemented account lockout security policy</li>
-  <li>Verified authentication and logging</li>
+  <li>Successfully deployed an Active Directory environment in Azure</li>
+  <li>Configured DNS and verified domain communication</li>
+  <li>Created and managed users and Organizational Units</li>
+  <li>Joined a client machine to the domain</li>
+  <li>Implemented and tested account lockout security policies</li>
+  <li>Validated authentication and system logs</li>
 </ul>
 
 ---
@@ -184,9 +184,9 @@ Disabled and re-enabled accounts to observe behavior. Checked security logs usin
 <h2>📌 Key Takeaways</h2>
 
 <ul>
-  <li>DNS configuration is critical for Active Directory functionality</li>
-  <li>Static IP assignment prevents domain resolution failures</li>
-  <li>Group Policy is essential for enforcing security controls</li>
-  <li>PowerShell enables scalable user management</li>
-  <li>Event logs provide visibility into authentication activity</li>
+  <li>Active Directory is highly dependent on proper DNS configuration</li>
+  <li>Static IP configuration is critical for Domain Controllers</li>
+  <li>Group Policy provides centralized control over security settings</li>
+  <li>PowerShell enables scalable administration of large user environments</li>
+  <li>Event logs are essential for monitoring authentication activity</li>
 </ul>
