@@ -158,7 +158,6 @@ In this project, I set up a Domain Controller and a client machine in Azure to s
 - Initially expected logs to clearly show issues
 - Found that logs contain a lot of information and require filtering
 - Learned that identifying useful events takes practice
-  
 - This process reinforced the importance of methodical troubleshooting and validating configurations step-by-step rather than assuming system behavior.
 ---
 
