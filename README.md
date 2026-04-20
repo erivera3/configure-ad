@@ -159,6 +159,7 @@ In this project, I set up a Domain Controller and a client machine in Azure to s
 - Found that logs contain a lot of information and require filtering
 - Learned that identifying useful events takes practice
 
+This process reinforced the importance of methodical troubleshooting and validating configurations step-by-step rather than assuming system behavior.
 ---
 
 ## 🧠 Design Decisions
@@ -167,6 +168,7 @@ In this project, I set up a Domain Controller and a client machine in Azure to s
 - Created a separate admin account instead of using the default administrator
 - Organized users and computers into OUs for better structure
 - Used PowerShell for faster user creation
+- Ensured DNS dependency was correctly configured before attempting domain join to prevent common failure points
 
 ---
 
@@ -197,7 +199,7 @@ In this project, I set up a Domain Controller and a client machine in Azure to s
 
 ---
 
-## 💭 Personal Reflection
+## 💭 Key Takeaways
 
 Before this lab, I assumed most system issues would be obvious and easy to identify. In practice, I found that problems like DNS misconfiguration, subnet issues, and authentication failures required step-by-step troubleshooting.
 
