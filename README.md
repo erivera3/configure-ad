@@ -56,7 +56,7 @@ In this project, I set up a Domain Controller and a client machine in Azure to s
 - Set the Domain Controller to use a static private IP
 
 <p align="center">
-  <img src="images/vm-setup.png" alt="Azure VM Setup" width="700">
+  <img src="images/vm-setup1.png" alt="Azure VM Setup" width="700">
 </p>
 
 ---
