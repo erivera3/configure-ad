@@ -2,7 +2,9 @@
   <img src="https://i.imgur.com/pU5A58S.png" alt="Active Directory Logo" width="180">
 </p>
 
-<h1 align="center"># Active Directory Deployment in Azure (Enterprise Simulation)</h1>
+<h1 align="center">Active Directory Deployment in Azure (Enterprise Simulation)</h1>
+This project demonstrates the deployment and management of an Active Directory environment in Microsoft Azure, including identity management, networking, and security controls.
+
 
 ---
 
