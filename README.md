@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/pU5A58S.png" alt="Active Directory Logo" width="200">
+  <img src="https://i.imgur.com/pU5A58S.png" alt="Active Directory Logo" width="300">
 </p>
 
 <h1 align="center">Active Directory Deployment in Azure (Enterprise Simulation)</h1>
