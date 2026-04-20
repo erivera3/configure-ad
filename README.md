@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/pU5A58S.png" alt="Active Directory Logo" width="180">
 </p>
 
-<h1 align="center">Active Directory Deployment in Azure (Lab 5)</h1>
+<h1 align="center"># Active Directory Deployment in Azure (Enterprise Simulation)</h1>
 
 ---
 
