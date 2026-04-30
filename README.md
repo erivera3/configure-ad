@@ -2,206 +2,257 @@
   <img src="https://i.imgur.com/pU5A58S.png" alt="Active Directory Logo" width="300">
 </p>
 
-<h1 align="center">Active Directory Deployment in Azure (Enterprise Simulation)</h1>
-This project demonstrates the deployment and management of an Active Directory environment in Microsoft Azure, including identity management, networking, and security controls.
+<h1 align="center">Active Directory Deployment in Azure (Identity, DNS, and Authentication Troubleshooting)</h1>
 
+This project focuses on deploying a working Active Directory environment in Azure and resolving the failures that prevent domain communication, authentication, and policy enforcement.
 
----
-
-## 🎯 Goals & Objectives
-
-The goal of this project was to build a working Active Directory environment in Azure and understand how core components like DNS, networking, and authentication work together.
-
-By the end of this lab, I aimed to:
-
-- Deploy a Domain Controller in Azure
-- Configure Active Directory Domain Services (AD DS)
-- Join a client machine to the domain
-- Create and manage users and Organizational Units
-- Implement and test account lockout policies
-- Improve my troubleshooting skills
+The objective was not just to configure AD, but to restore functionality when identity and network dependencies failed.
 
 ---
 
-## 📌 Overview
+## 📌 Context
 
-In this project, I set up a Domain Controller and a client machine in Azure to simulate a basic enterprise environment. The focus was on understanding how systems communicate, how users are managed, and how security policies affect authentication.
+Active Directory environments depend on multiple systems working correctly:
+
+- DNS resolution  
+- Network connectivity  
+- Domain controller configuration  
+- Client authentication  
+
+Failure in any of these layers prevents domain functionality.
+
+This project tested how those dependencies interact and fail.
 
 ---
 
 ## 🧰 Technologies Used
 
-- Microsoft Azure (Virtual Machines)
-- Active Directory Domain Services (AD DS)
-- Remote Desktop Protocol (RDP)
-- PowerShell
-- Group Policy
-- DNS
+- Microsoft Azure (Virtual Machines)  
+- Active Directory Domain Services (AD DS)  
+- Remote Desktop Protocol (RDP)  
+- PowerShell  
+- Group Policy  
+- DNS  
 
 ---
 
 ## 💻 Environment
 
-- Windows Server 2022 (DC-1)
-- Windows 10 (Client-1)
-- Domain: `mydomain.com`
-- Azure Virtual Network
+- Windows Server 2022 (DC-1)  
+- Windows 10 (Client-1)  
+- Domain: `mydomain.com`  
+- Azure Virtual Network  
 
 ---
 
 ## ⚙️ Implementation
 
 ### 1. Infrastructure Setup
-- Created a Virtual Network and two VMs (DC-1 and Client-1)
-- Set the Domain Controller to use a static private IP
+
+**Problem:**  
+No identity infrastructure available.
+
+**Decision:**  
+Deploy domain controller and client system within same virtual network.
+
+**Result:**  
+- Base environment created for domain communication  
+- Systems reachable via RDP  
 
 <p align="center">
-  <img src="images/vm-setup1.png" alt="Azure VM Setup" width="700">
+  <img src="images/vm-setup1.png" width="700">
 </p>
 
 ---
 
-### 2. DNS & Connectivity
-- Set Client-1’s DNS to point to the Domain Controller
-- Verified connectivity using:
-  - `ping`
-  - `ipconfig /all`
+### 2. DNS Failure (Critical Blocker)
+
+**Problem:**  
+Client could not join domain.
+
+**Root Cause:**  
+Client was using Azure default DNS instead of domain controller.
+
+**Decision:**  
+Reconfigure DNS to point directly to domain controller IP.
+
+**Result:**  
+- Domain join functionality restored  
+- Client able to resolve domain resources  
 
 <p align="center">
-  <img src="images/dns-config.png" alt="DNS Configuration" width="700">
+  <img src="images/dns-config.png" width="700">
 </p>
 
 ---
 
-### 3. Active Directory Setup
-- Installed AD DS on DC-1
-- Promoted it to a Domain Controller
-- Created domain: `mydomain.com`
+### 3. Active Directory Deployment
+
+**Problem:**  
+No centralized identity management.
+
+**Decision:**  
+Install AD DS and promote server to domain controller.
+
+**Result:**  
+- Domain (`mydomain.com`) established  
+- Centralized authentication enabled  
 
 <p align="center">
-  <img src="images/ad-install.png" alt="Active Directory Installation" width="700">
+  <img src="images/ad-install.png" width="700">
 </p>
 
 ---
 
-### 4. User & OU Setup
-- Created Organizational Units:
-  - `_ADMINS`
-  - `_EMPLOYEES`
-  - `_CLIENTS`
-- Created admin account: `jane_admin`
+### 4. Organizational Structure
+
+**Problem:**  
+Flat user structure creates management and security issues.
+
+**Decision:**  
+Create Organizational Units:
+- `_ADMINS`
+- `_EMPLOYEES`
+- `_CLIENTS`
+
+**Result:**  
+- Structured identity management  
+- Improved policy targeting and control  
 
 <p align="center">
-  <img src="images/ou-setup.png" alt="OU Setup" width="700">
+  <img src="images/ou-setup.png" width="700">
 </p>
 
 ---
 
-### 5. Domain Join
-- Joined Client-1 to the domain
-- Verified it appeared in Active Directory
-- Moved it into `_CLIENTS` OU
+### 5. Domain Join Validation
+
+**Problem:**  
+Need to confirm system integration into domain.
+
+**Decision:**  
+Join Client-1 to domain and validate placement.
+
+**Result:**  
+- Client successfully joined  
+- Verified in Active Directory  
+- Moved to correct OU  
 
 <p align="center">
-  <img src="images/domain-join.png" alt="Domain Join" width="700">
+  <img src="images/domain-join.png" width="700">
 </p>
 
 ---
 
-### 6. User Creation
-- Used PowerShell to create multiple user accounts
-- Verified they appeared in Active Directory
+### 6. User Provisioning
+
+**Problem:**  
+Manual user creation inefficient and error-prone.
+
+**Decision:**  
+Use PowerShell to automate account creation.
+
+**Result:**  
+- Multiple users created efficiently  
+- Verified in Active Directory  
 
 <p align="center">
-  <img src="images/users.png" alt="Bulk User Creation" width="750">
+  <img src="images/users.png" width="750">
 </p>
 
 ---
 
-### 7. Account Lockout Policy
-- Configured lockout policy using Group Policy
-- Forced update with `gpupdate /force`
-- Triggered lockouts with failed login attempts
+### 7. Authentication Failure Simulation
+
+**Problem:**  
+Need to test security behavior under failed authentication.
+
+**Decision:**  
+Configure account lockout policy and trigger failures.
+
+**Result:**  
+- Accounts locked after failed attempts  
+- Security policy validated  
 
 <p align="center">
-  <img src="images/account-lockout.png" alt="Account Lockout Policy" width="700">
+  <img src="images/account-lockout.png" width="700">
 </p>
 
 ---
 
-### 8. Account Management & Logs
-- Unlocked accounts and reset passwords
-- Disabled and re-enabled users
-- Checked logs using Event Viewer
+### 8. Log Analysis & Account Recovery
+
+**Problem:**  
+Need to identify cause of authentication issues.
+
+**Decision:**  
+Analyze Event Viewer logs and restore accounts.
+
+**Result:**  
+- Accounts unlocked and reset  
+- Verified system logging behavior  
 
 <p align="center">
-  <img src="images/logs.png" alt="Event Viewer Logs" width="750">
+  <img src="images/logs.png" width="750">
 </p>
 
 ---
 
-## 🔍 Troubleshooting
+## 🔍 Key Failures & Resolutions
 
-### DNS Issue
-- Problem: Client could not join the domain
-- Cause: Client was using Azure default DNS
-- Fix: Changed DNS to Domain Controller IP
+### DNS Misconfiguration
+- Cause: Default Azure DNS  
+- Fix: Pointed client to domain controller  
 
-### Network Issue (Subnet Understanding)
-- Problem: Machines could not communicate
-- Cause: Network configuration mismatch
-- Fix:
-  - Verified both VMs were in the same network
-  - Confirmed connectivity using ping
+### Network Connectivity Issue
+- Cause: Incorrect network assumptions  
+- Fix: Verified same VNet and connectivity  
 
-### Log Analysis Challenge
-- Initially expected logs to clearly show issues
-- Found that logs contain a lot of information and require filtering
-- Learned that identifying useful events takes practice
-- This process reinforced the importance of methodical troubleshooting and validating configurations step-by-step rather than assuming system behavior.
----
-
-## 🧠 Design Decisions
-
-- Used a static IP for the Domain Controller to avoid DNS issues
-- Created a separate admin account instead of using the default administrator
-- Organized users and computers into OUs for better structure
-- Used PowerShell for faster user creation
-- Ensured DNS dependency was correctly configured before attempting domain join to prevent common failure points
+### Authentication Lockout
+- Cause: Failed login attempts  
+- Fix: Reset accounts and validated policy  
 
 ---
 
-## 🛡️ Security Awareness
+## 🧠 Decisions That Mattered
 
-- Triggered account lockouts through failed login attempts
-- Observed how login attempts are recorded in logs
-- Noted that without careful review, important events can be missed
-
----
-
-## 🌍 Real-World Relevance
-
-- Active Directory is commonly used in enterprise environments
-- DNS configuration is critical for system communication
-- Group Policy is used to manage users and security settings
-- Logs are important but require proper tools and attention
+- Set static IP for domain controller to prevent DNS instability  
+- Used separate admin account instead of default administrator  
+- Structured OUs for control and scalability  
+- Used PowerShell for efficient provisioning  
+- Validated DNS before attempting domain join  
 
 ---
 
-## 📌 Lessons Learned
+## 🛡️ System Understanding
 
-- DNS is critical for Active Directory to function
-- Network configuration directly affects connectivity
-- Logs are not always easy to interpret
-- Troubleshooting takes time and testing
-- Small configuration mistakes can break entire systems
+- DNS is the backbone of Active Directory  
+- Domain functionality depends on correct name resolution  
+- Authentication failures must be validated through logs  
+- Network configuration directly affects identity systems  
+- Misconfiguration in one layer breaks the entire environment  
 
 ---
 
-## 💭 Key Takeaways
+## 📌 Key Lessons
 
-Before this lab, I assumed most system issues would be obvious and easy to identify. In practice, I found that problems like DNS misconfiguration, subnet issues, and authentication failures required step-by-step troubleshooting.
+- DNS misconfiguration is the most common AD failure point  
+- Network and identity systems are tightly coupled  
+- Logs require interpretation, not just observation  
+- Small configuration errors can break authentication entirely  
 
-I also learned that logs do contain useful information, but they are not simple to read without knowing what to look for.
+---
 
-This lab helped me shift from just following steps to actually thinking through how systems work and how to diagnose issues when something breaks.
+## Summary
+
+This project demonstrates the ability to deploy and troubleshoot a working identity system in a cloud environment.
+
+Key outcomes:
+
+- Restored domain functionality by correcting DNS failures  
+- Validated authentication and security policy behavior  
+- Built structured identity management using OUs and roles  
+- Diagnosed issues across networking, DNS, and authentication layers  
+
+**Result:**  
+A functional Active Directory environment where identity, authentication, and policy enforcement work correctly because underlying failures were identified and resolved.
