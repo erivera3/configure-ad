@@ -14,16 +14,16 @@ I built an Active Directory lab with Windows Server 2022 and a Windows client in
 - Pointed client DNS at the domain controller and checked domain connectivity.
 - Created users with PowerShell, tested lockout behavior, and practiced account recovery with Event Viewer.
 
-**Why it matters for IT support:** Connects common support tasks—domain joins, account lockouts, password resets, and DNS checks—to the underlying configuration.
+**Skills practiced:** Domain joins, DNS troubleshooting, user provisioning, account recovery, and log review.
 
 Related: [Azure networking and Wireshark lab](https://github.com/erivera3/azure-network-protocols).
 
-**Scope:** This is a training domain with test accounts. The domain name and configurations document the lab, not an employer's production environment.
+**Environment:** Azure-hosted training domain with test accounts and a Windows client.
 
 [Back to my portfolio](https://github.com/erivera3)
 
 <details>
-<summary><strong>Open the full walkthrough, screenshots, decisions, and lessons</strong></summary>
+<summary><strong>Walkthrough, screenshots, and troubleshooting notes</strong></summary>
 
 ## 📌 Context
 
@@ -260,7 +260,7 @@ Analyze Event Viewer logs and restore accounts.
 
 ## Summary
 
-This project demonstrates the ability to deploy and troubleshoot a working identity system in a cloud environment.
+I deployed a training domain, corrected client DNS settings, and tested account administration and authentication behavior.
 
 Key outcomes:
 
