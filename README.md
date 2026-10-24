@@ -2,13 +2,28 @@
   <img src="https://i.imgur.com/pU5A58S.png" alt="Active Directory Logo" width="300">
 </p>
 
-<h1 align="center">Active Directory Deployment in Azure (Identity, DNS, and Authentication Troubleshooting)</h1>
+# Active Directory in Azure: DNS, Accounts, and Domain Joins
 
-This project focuses on deploying a working Active Directory environment in Azure and resolving the failures that prevent domain communication, authentication, and policy enforcement.
+**Project context:** Structured technical lab
 
-The objective was not just to configure AD, but to restore functionality when identity and network dependencies failed.
+I built an Active Directory lab with Windows Server 2022 and a Windows client in Azure, then practiced the identity and DNS checks used in account and sign-in troubleshooting.
 
----
+## At a glance
+
+- Installed AD DS, created OUs, and joined a client to the domain.
+- Pointed client DNS at the domain controller and checked domain connectivity.
+- Created users with PowerShell, tested lockout behavior, and practiced account recovery with Event Viewer.
+
+**Why it matters for IT support:** Connects common support tasks—domain joins, account lockouts, password resets, and DNS checks—to the underlying configuration.
+
+Related: [Azure networking and Wireshark lab](https://github.com/erivera3/azure-network-protocols).
+
+**Scope:** This is a training domain with test accounts. The domain name and configurations document the lab, not an employer's production environment.
+
+[Back to my portfolio](https://github.com/erivera3)
+
+<details>
+<summary><strong>Open the full walkthrough, screenshots, decisions, and lessons</strong></summary>
 
 ## 📌 Context
 
@@ -230,13 +245,13 @@ Analyze Event Viewer logs and restore accounts.
 - Domain functionality depends on correct name resolution  
 - Authentication failures must be validated through logs  
 - Network configuration directly affects identity systems  
-- Misconfiguration in one layer breaks the entire environment  
+- A configuration error in a dependency can disrupt domain functions  
 
 ---
 
 ## 📌 Key Lessons
 
-- DNS misconfiguration is the most common AD failure point  
+- DNS misconfiguration can prevent domain joins and authentication  
 - Network and identity systems are tightly coupled  
 - Logs require interpretation, not just observation  
 - Small configuration errors can break authentication entirely  
@@ -256,3 +271,5 @@ Key outcomes:
 
 **Result:**  
 A functional Active Directory environment where identity, authentication, and policy enforcement work correctly because underlying failures were identified and resolved.
+
+</details>
